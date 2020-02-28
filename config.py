@@ -9,7 +9,7 @@ uniform_prior = False
 n_layers = 3
 n_epochs = 100
 n_hidden = [1000, 500, 200]
-lr = .003
+lr = .0003
 momentum = .8
 batch_size = 100
 

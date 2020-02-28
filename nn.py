@@ -2,7 +2,7 @@ import numpy
 from collections import OrderedDict
 import torch.nn as nn
 from torch.nn.modules.loss import NLLLoss
-from torch.optim import SGD
+from torch.optim import Adam
 import torch
 from config import n_layers, n_epochs, n_hidden, lr, momentum, batch_size
 import time
@@ -49,7 +49,7 @@ def train(model, training_features, training_targets,
           validation_features, validation_targets):
     # loss is negative log likelihood
     loss = NLLLoss()
-    optimizer = SGD(model.parameters(), lr=lr, momentum=momentum)
+    optimizer = Adam(model.parameters(), lr=lr)
 
     # cast to torch tensors
     training_features = torch.from_numpy(training_features).float().cuda()
@@ -60,12 +60,12 @@ def train(model, training_features, training_targets,
     min_valid_loss = 1e10
 
     for epoch in range(model.n_epochs):
-        optimizer.zero_grad()
         epoch_start = int(time.time())
         print(f"Starting Epoch {epoch}")
         # Do mini-batch gradient descent
         perm = torch.randperm(training_features.size()[0])
         for i in range(0, training_features.size()[0], batch_size):
+            optimizer.zero_grad()
             # Find batches
             batch_indices = perm[i:max(i + batch_size, training_features.size()[0])]
             batch_features = training_features[batch_indices, :]
