@@ -7,6 +7,10 @@ random = np.random.RandomState(random_state)
 
 ingredients, cuisines, ingredients_one_hot, cuisines_one_hot = load_data()
 del ingredients
+cuisines = cuisines[:100]
+ingredients = ingredients_one_hot[:100]
+cuisines_one_hot = cuisines_one_hot[:100]
+
 
 # Split into n folds
 feature_folds, target_folds = split_n_folds(ingredients_one_hot, cuisines, n_folds)
@@ -28,8 +32,8 @@ train(model, train_features, train_targets, validation_features, validation_targ
 print("Model is fitted to training data")
 
 # Predict on test data
-predicted_targets = model.predict(test_features)
-accuracy = np.sum(predicted_targets == test_targets) / predicted_targets.shape[0]
+predicted_targets = model(test_features).numpy()
+accuracy = np.sum(np.argmax(predicted_targets, axis=1) == test_targets) / predicted_targets.shape[0]
 print(f"Model is tested, accuracy is {accuracy}.")
 accuracies.append(accuracy)
 

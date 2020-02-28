@@ -12,7 +12,7 @@ import time
 if n_layers != len(n_hidden):
     raise ValueError("List of number of hidden units does not match the number of indicated layers")
 
-class CuisineClassifier(nn.Module):
+class CuisineClassifier(nn.Linear):
     def __init__(self, n_input, n_output):
         super(CuisineClassifier, self).__init__()
         self.n_layers = n_layers
@@ -20,12 +20,12 @@ class CuisineClassifier(nn.Module):
 
         self.input = nn.Sequential(
             nn.Linear(n_input, n_hidden[0]),
-            nn.Softmax(dim=1)
+            nn.Sigmoid()
         ).cuda()
         hidden_dict = OrderedDict()
         for i in range(n_layers - 1):
             hidden_dict[f"linear{i}"] = nn.Linear(n_hidden[i], n_hidden[i + 1])
-            hidden_dict[f"softmax{i}"] = nn.Softmax(dim=1)
+            hidden_dict[f"softmax{i}"] = nn.Sigmoid()
         self.hidden = nn.Sequential(
             hidden_dict
         ).cuda()
