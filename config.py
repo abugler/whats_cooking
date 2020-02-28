@@ -6,10 +6,10 @@ fit_prior = True
 uniform_prior = False
 
 # For Artificial Neural Network
-n_layers = 3
+n_layers = 1
 n_epochs = 100
-n_hidden = [1000, 500, 200]
+n_hidden = [1000]
 lr = .0001
-momentum = .3
+momentum = .5
 batch_size = 100
 
