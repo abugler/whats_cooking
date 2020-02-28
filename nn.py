@@ -73,7 +73,7 @@ def train(model, training_features, training_targets,
             # forward pass
             predicted = model(batch_features)
             # predict loss
-            batch_loss = loss(predicted, batch_targets)
+            batch_loss = loss(predicted, batch_targets).cpu()
             # backprop
             batch_loss.backward()
             optimizer.step()
