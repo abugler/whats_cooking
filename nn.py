@@ -2,7 +2,7 @@ import numpy
 from collections import OrderedDict
 import torch.nn as nn
 from torch.nn.modules.loss import NLLLoss
-from torch.optim import Adam
+from torch.optim import SGD
 import torch
 from config import n_layers, n_epochs, n_hidden, lr, momentum, batch_size
 import time
@@ -51,7 +51,7 @@ def train(model, training_features, training_targets,
           validation_features, validation_targets):
     # loss is negative log likelihood
     loss = NLLLoss()
-    optimizer = Adam(model.parameters(), lr=lr)
+    optimizer = SGD(model.parameters(), lr=lr, momentum=momentum)
 
     # cast to torch tensors
     training_features = torch.from_numpy(training_features).float().cuda()
