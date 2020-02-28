@@ -86,7 +86,7 @@ def train(model, training_features, training_targets,
         seconds_elapsed = epoch_end - epoch_start
 
         print(output_template.format(
-            int(seconds_elapsed / 60), seconds_elapsed % 60, valid_loss.cpu().values(), epoch
+            int(seconds_elapsed / 60), seconds_elapsed % 60, valid_loss.item(), epoch
         ))
 
 
