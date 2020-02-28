@@ -20,12 +20,12 @@ class CuisineClassifier(nn.Module):
 
         self.input = nn.Sequential(
             nn.Linear(n_input, n_hidden[0]),
-            nn.LogSoftmax(dim=1)
+            nn.Sigmoid()
         ).cuda()
         hidden_dict = OrderedDict()
         for i in range(n_layers - 1):
             hidden_dict[f"linear{i}"] = nn.Linear(n_hidden[i], n_hidden[i + 1])
-            hidden_dict[f"softmax{i}"] = nn.LogSoftmax(dim=1)
+            hidden_dict[f"softmax{i}"] = nn.Sigmoid()
         self.hidden = nn.Sequential(
             hidden_dict
         ).cuda()
