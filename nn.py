@@ -73,7 +73,7 @@ def train(model, training_features, training_targets,
             # forward pass
             predicted = model(batch_features)
             # predict loss
-            batch_loss = loss(predicted, batch_targets).cpu()
+            batch_loss = loss(predicted, batch_targets)
             # backprop
             batch_loss.backward()
             optimizer.step()
@@ -86,7 +86,7 @@ def train(model, training_features, training_targets,
         seconds_elapsed = epoch_end - epoch_start
 
         print(output_template.format(
-            int(seconds_elapsed / 60), seconds_elapsed % 60, valid_loss.values(), epoch
+            int(seconds_elapsed / 60), seconds_elapsed % 60, valid_loss.cpu().values(), epoch
         ))
 
 
