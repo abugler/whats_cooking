@@ -21,18 +21,18 @@ class CuisineClassifier(nn.Module):
         self.input = nn.Sequential(
             nn.Linear(n_input, n_hidden[0]),
             nn.LogSoftmax(dim=1)
-        )
+        ).cuda()
         hidden_dict = OrderedDict()
         for i in range(n_layers - 1):
             hidden_dict[f"linear{i}"] = nn.Linear(n_hidden[i], n_hidden[i + 1])
             hidden_dict[f"softmax{i}"] = nn.LogSoftmax(dim=1)
         self.hidden = nn.Sequential(
             hidden_dict
-        )
+        ).cuda()
         self.output = nn.Sequential(
             nn.Linear(n_hidden[-1], n_output),
             nn.LogSoftmax(dim=1)
-        )
+        ).cuda()
 
     def forward(self, X):
         return self.output(self.hidden(self.input(X)))
@@ -49,7 +49,7 @@ def train(model, training_features, training_targets,
           validation_features, validation_targets):
     # loss is negative log likelihood
     loss = NLLLoss()
-    optimizer = SGD(model.parameters().cuda(), lr=lr, momentum=momentum)
+    optimizer = SGD(model.parameters(), lr=lr, momentum=momentum)
 
     # cast to torch tensors
     training_features = torch.from_numpy(training_features).float().cuda()
