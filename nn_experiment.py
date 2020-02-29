@@ -7,10 +7,6 @@ random = np.random.RandomState(random_state)
 
 ingredients, cuisines, ingredients_one_hot, cuisines_one_hot = load_data()
 del ingredients
-cuisines = cuisines[:100]
-ingredients = ingredients_one_hot[:100]
-cuisines_one_hot = cuisines_one_hot[:100]
-
 
 # Split into n folds
 feature_folds, target_folds = split_n_folds(ingredients_one_hot, cuisines, n_folds)
@@ -28,13 +24,12 @@ print("Training and testing datasets created")
 model = CuisineClassifier(train_features.shape[1], cuisines_one_hot.shape[1])
 
 # Fit model
-train(model, train_features, train_targets, validation_features, validation_targets)
+# train(model, train_features, train_targets, validation_features, validation_targets)
+model  = torch.load("best_nn")
 print("Model is fitted to training data")
 
 # Predict on test data
-predicted_targets = model(test_features).numpy()
-accuracy = np.sum(np.argmax(predicted_targets, axis=1) == test_targets) / predicted_targets.shape[0]
-print(f"Model is tested, accuracy is {accuracy}.")
-accuracies.append(accuracy)
+predicted_targets = np.exp(model(torch.tensor(test_features).float().cuda()).cpu().detach().numpy())
+accuracy = np.sum(np.argmax(predicted_targets, axis=1) == test_targets) / test_targets.shape[0]
+print(f"Model is tested, accuracy is {accuracy}")
 
-print(accuracies)

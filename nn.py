@@ -4,7 +4,7 @@ import torch.nn as nn
 from torch.nn.modules.loss import NLLLoss
 from torch.optim import SGD
 import torch
-from config import n_layers, n_epochs, n_hidden, lr, momentum, batch_size
+from config import n_layers, n_epochs, n_hidden, lr, momentum, batch_size, decay
 import time
 
 # Note: The neural network MUST be trained on gpu
@@ -62,6 +62,9 @@ def train(model, training_features, training_targets,
     min_valid_loss = 1e10
     train_start = int(time.time())
     for epoch in range(model.n_epochs):
+        if epoch % 10 == 9:
+            for g in optimizer.param_groups:
+                g['lr'] *= decay
         epoch_start = int(time.time())
         print(f"Starting Epoch {epoch}")
         # Do mini-batch gradient descent

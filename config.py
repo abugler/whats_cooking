@@ -7,9 +7,9 @@ uniform_prior = False
 
 # For Artificial Neural Network
 n_layers = 3
-n_epochs = 100
+n_epochs = 1000
 n_hidden = [1000, 500, 200]
-lr = .0001
-momentum = .5
+lr = .005
+momentum = .8
 batch_size = 100
-
+decay = .8
