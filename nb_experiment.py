@@ -19,7 +19,7 @@ for f in range(n_folds):
     print(f"Beginning experiment {f+1}")
     # Split folds
     train_features, train_targets, test_features, test_targets =\
-        training_testing_split(feature_folds, target_folds, f, dtype=np.float)
+        training_testing_split(feature_folds, target_folds, f)
     print("Training and testing datasets created")
 
     # Initialize model

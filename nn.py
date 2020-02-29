@@ -59,6 +59,8 @@ def train(model, training_features, training_targets,
     validation_features = torch.from_numpy(validation_features).float().cuda()
     validation_targets = torch.from_numpy(validation_targets).long().cuda()
 
+    no_improvement = 0
+
     min_valid_loss = 1e10
     train_start = int(time.time())
     for epoch in range(model.n_epochs):
@@ -91,6 +93,10 @@ def train(model, training_features, training_targets,
         if min_valid_loss > valid_loss:
             min_valid_loss = valid_loss
             torch.save(model, "best_nn")
+            no_improvement = 0
+        else:
+            no_improvement += 1
+
         epoch_end = int(time.time())
         epoch_elapsed = epoch_end - epoch_start
         train_elapsed = epoch_end - train_start
@@ -98,5 +104,8 @@ def train(model, training_features, training_targets,
             int(epoch_elapsed / 60), epoch_elapsed % 60, valid_loss, min_training_loss, epoch,
             int(train_elapsed / 60), train_elapsed % 60
         ))
+        if no_improvement == 10:
+            break
+    print("Training complete")
 
 
