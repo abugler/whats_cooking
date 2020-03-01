@@ -6,6 +6,7 @@ fit_prior = True
 uniform_prior = False
 
 # For Artificial Neural Network
+train_new_nn = False
 n_layers = 1
 n_epochs = 1000
 n_hidden = [3000]
